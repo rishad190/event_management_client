@@ -23,13 +23,20 @@ export default function EventCard({ data }) {
     setOpen(false);
   };
   const handleBook = () => {
-    EventBookService.addEventBook({ ...data, name, email, phone }).then(
-      (res) => {
-        if (res) {
-          setOpen(true);
-        }
+    EventBookService.addEventBook({
+      title,
+      image,
+      description,
+      placeName,
+      date,
+      name,
+      email,
+      phone,
+    }).then((res) => {
+      if (res) {
+        setOpen(true);
       }
-    );
+    });
   };
   return (
     <Card sx={{ maxWidth: 345 }}>

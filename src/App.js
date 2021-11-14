@@ -14,6 +14,7 @@ import AddAdmin from "./Components/AddAdmin";
 import UserDashboard from "./Components/UserDashboard";
 import UserEventBook from "./Components/UserEventBook";
 import EventBook from "./Components/EventBook";
+import BookList from "./Components/BookList";
 export const UserContext = createContext();
 function App() {
   const [user, setUser] = useState({
@@ -59,6 +60,7 @@ function App() {
               }
             >
               <Route path="DashboardUser" element={<UserEventBook />} />
+              <Route path="Book" element={<BookList />} />
             </Route>
             <Route path="*" element={<p>404 Error</p>} />
           </Routes>

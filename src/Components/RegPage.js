@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 const RegPage = () => {
   const [dob, setDob] = React.useState(new Date());
   const [doj, setDoj] = React.useState(new Date());
+  const [checkUser, setCheckUser] = React.useState([]);
   const navigate = useNavigate();
   const {
     register,
@@ -20,15 +21,27 @@ const RegPage = () => {
     formState: { errors },
   } = useForm();
   const theme = useTheme();
-  const onSubmit = (data) => {
-    const saveData = { ...data, dob: dob, doj: doj };
-    RegService.addUser(saveData).then((user) => {
-      if (user) {
-        navigate("/login");
-      } else {
-        console.log("error");
-      }
+  React.useEffect(() => {
+    RegService.getUser().then((user) => {
+      setCheckUser(user);
     });
+  }, []);
+  const onSubmit = (data) => {
+    if (data.email) {
+      const existingUser = checkUser.find((user) => user.email === data.email);
+      if (existingUser) {
+        alert("Already Email is Used");
+      } else {
+        const saveData = { ...data, dob: dob, doj: doj };
+        RegService.addUser(saveData).then((user) => {
+          if (user) {
+            navigate("/login");
+          } else {
+            console.log("error");
+          }
+        });
+      }
+    }
   };
 
   return (
