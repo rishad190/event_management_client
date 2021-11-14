@@ -5,12 +5,11 @@ import { Button, TextField } from "@mui/material";
 import { Box, styled } from "@mui/system";
 import RegService from "../service/RegService";
 import { UserContext } from "../App";
-import { useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 const LoginPage = () => {
   const [user, setUser] = useContext(UserContext);
   let navigate = useNavigate();
-  let location = useLocation();
-  let from = location.state?.from?.pathname || "/";
+
   const {
     register,
     handleSubmit,
@@ -22,17 +21,23 @@ const LoginPage = () => {
       const loginUser = res.find(
         (user) => user.email === data.email && user.password === data.password
       );
+
       if (loginUser) {
         setUser({
           ...user,
           email: loginUser.email,
           isSignIn: true,
+          isAdmin: loginUser?.isAdmin,
+          address: loginUser?.address,
+          phone: loginUser?.contact,
+          name: `${loginUser?.firstName} ${loginUser?.lastName}`,
         });
-        navigate(from, { replace: true });
+        loginUser.isAdmin
+          ? navigate("/admin/dashboard", { replace: true })
+          : navigate("/userDashboard/DashboardUser", { replace: true });
       }
     });
   };
-  console.log(user);
 
   return (
     <Wrapper>
@@ -101,7 +106,7 @@ const LoginPage = () => {
 
 export default LoginPage;
 const Wrapper = styled("div")`
-  background-color: lightgray;
+  background-color: #dce1e3;
   width: 100%;
   height: 100vh;
   display: flex;

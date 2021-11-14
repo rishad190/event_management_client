@@ -24,7 +24,7 @@ const SingleItem = () => {
         <TextWrapper>
           <h2>{title}</h2>
           <p>{placeName}</p>
-          <p>{date}</p>
+          <p>{new Date(date).toDateString()}</p>
           <p>{address}</p>
           <p>{description}</p>
         </TextWrapper>
@@ -39,10 +39,14 @@ const Wrapper = styled("div")`
   justify-content: space-between;
   align-items: center;
 `;
-const TextWrapper = styled("div")``;
+const TextWrapper = styled("div")`
+  flex: 1;
+`;
 const ImageContainer = styled("div")`
-  width: 60%;
+  flex: 1;
+  margin-right: 10px;
   img {
     width: 100%;
+    border-radius: 10px;
   }
 `;

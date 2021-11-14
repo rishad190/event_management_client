@@ -32,11 +32,19 @@ export default function DataTable() {
             <Link to={`/admin/Dashboard/${event._id}`}>
               <h2 onClick={handleOpen}>{event.title}</h2>
             </Link>
-            <p>Place Name:{event.placeName}</p>
-            <p>Date : {event.date}</p>
+            <p>Place Name: {event.placeName}</p>
+            <p>Date : {new Date(event.date).toDateString()}</p>
           </TextBox>
           <ActiveButton>
-            <Button>{event.isActive ? "Active" : "Inactive"}</Button>
+            {event.isActive ? (
+              <Button variant="outlined" color="success">
+                Active
+              </Button>
+            ) : (
+              <Button variant="outlined" color="error">
+                Inactive
+              </Button>
+            )}
           </ActiveButton>
         </ListBox>
       ))}
@@ -48,22 +56,23 @@ export default function DataTable() {
 const Wrapper = styled("div")`
   margin-top: 10px;
   overflow-y: scroll;
-  height: 100%;
+  height: 80vh;
 `;
 const ListBox = styled("div")`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: lightskyblue;
+  background-color: #f3f3f3;
   border-radius: 8px;
   padding: 10px;
   margin-bottom: 10px;
 `;
 const TextBox = styled("div")`
+  flex: 2;
   h2 {
     margin: 0;
     padding: 0;
-    color: white;
+    color: lightblack;
     :hover {
       color: black;
     }
@@ -71,7 +80,7 @@ const TextBox = styled("div")`
   p {
     margin: 0;
     padding: 0;
-    color: white;
+    color: lightblack;
   }
   a {
     text-decoration: none;
@@ -80,6 +89,8 @@ const TextBox = styled("div")`
 const ActiveButton = styled("div")``;
 const ImageContainer = styled("div")`
   width: 20%;
+  flex: 0.5;
+  margin-right: 10px;
   img {
     width: 100%;
     height: 150px;

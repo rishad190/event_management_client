@@ -4,7 +4,17 @@ import { useForm } from "react-hook-form";
 import { useTheme } from "@mui/material/styles";
 import { Button, TextField } from "@mui/material";
 import RegService from "../service/RegService";
+import CustomizedSnackbars from "./CustomizedSnackbars";
 const AddAdmin = () => {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
   const {
     register,
     handleSubmit,
@@ -13,7 +23,9 @@ const AddAdmin = () => {
   const theme = useTheme();
   const onSubmit = (data) => {
     RegService.addUser({ ...data, isAdmin: true }).then((res) => {
-      console.log(res);
+      if (res) {
+        setOpen(true);
+      }
     });
   };
   return (
@@ -73,6 +85,7 @@ const AddAdmin = () => {
             </Button>
           </InputBoxField>
         </Box>
+        <CustomizedSnackbars open={open} handleClose={handleClose} />
       </InputBox>
     </Wrapper>
   );

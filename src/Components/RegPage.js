@@ -114,18 +114,28 @@ const RegPage = () => {
               id="outlined-input"
               label="Address"
               variant="outlined"
-              {...register("address", { required: true })}
+              {...register("address", {
+                required: "required",
+                minLength: {
+                  value: 10,
+                  message: "min length is 10",
+                },
+              })}
             />
-            {errors.address && <AlertText>This field is required</AlertText>}
+            {errors.address && <AlertText>{errors.address.message}</AlertText>}
             <TextField
               required
               id="outlined-input"
               label="Contact Number"
-              type="tel"
+              type="number"
+              minLength={11}
+              pattern="[+-]?\d+(?:[.,]\d+)?"
               variant="outlined"
-              {...register("contact", { required: true })}
+              {...register("contact", {
+                required: "required",
+              })}
             />
-            {errors.contact && <AlertText>This field is required</AlertText>}
+            {errors.contact && <AlertText>{"Please Enter Number"}</AlertText>}
             <LocalizationProvider dateAdapter={DateAdapter}>
               <DatePicker
                 label="Date of Join"
@@ -151,7 +161,7 @@ const RegPage = () => {
 
 export default RegPage;
 const Wrapper = styled("div")`
-  background-color: lightgray;
+  background-color: #dce1e3;
   width: 100%;
   height: 100vh;
   display: flex;

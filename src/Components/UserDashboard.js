@@ -19,8 +19,8 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { NavLink, Outlet } from "react-router-dom";
 import { Button } from "@mui/material";
-import { UserContext } from "../App";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { UserContext } from "../App";
 
 const drawerWidth = 240;
 
@@ -123,7 +123,7 @@ export default function AppNav() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Admin Dashboard
+            User Dashboard
           </Typography>
         </Toolbar>
       </AppBar>
@@ -139,29 +139,27 @@ export default function AppNav() {
         </DrawerHeader>
         <Divider />
         <List>
-          {["Dashboard", "CreateEvent", "EventBook", "AddAdmin"].map(
-            (text, index) => (
-              <NavLink
-                style={({ isActive }) => {
-                  return {
-                    textDecoration: "none",
-                    display: "block",
-                    margin: "1rem 0",
-                    color: isActive ? "blue" : "black",
-                  };
-                }}
-                to={`${text}`}
-                key={text}
-              >
-                <ListItem button>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItem>
-              </NavLink>
-            )
-          )}
+          {["DashboardUser", "Book"].map((text, index) => (
+            <NavLink
+              style={({ isActive }) => {
+                return {
+                  textDecoration: "none",
+                  display: "block",
+                  margin: "1rem 0",
+                  color: isActive ? "blue" : "black",
+                };
+              }}
+              to={`${text}`}
+              key={text}
+            >
+              <ListItem button>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            </NavLink>
+          ))}
         </List>
         <Divider />
         <Button onClick={handleSignOut}>

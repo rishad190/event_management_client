@@ -14,6 +14,8 @@ import { useTheme } from "@mui/material/styles";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import EventService from "../service/EventService";
+import CustomizedSnackbars from "./CustomizedSnackbars";
+import TextareaAutosize from "@mui/material/TextareaAutosize";
 
 const Input = styled("input")({
   display: "none",
@@ -23,6 +25,16 @@ const CreateEvent = () => {
   const [uploadTime, setUploadTime] = React.useState();
   const [imgValue, setImgValue] = React.useState();
   const [status, setStatus] = React.useState("");
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   const handleChange = (event) => {
     setStatus(event.target.value);
   };
@@ -40,7 +52,9 @@ const CreateEvent = () => {
       image: imgValue,
       isActive: status,
     }).then((response) => {
-      console.log(response);
+      if (response) {
+        setOpen(true);
+      }
     });
   };
   const options = {
@@ -64,7 +78,6 @@ const CreateEvent = () => {
           setUploadTime(null);
         }, 1000);
         setImgValue(response.data.data.display_url);
-        console.log(response.data.data.display_url);
       })
       .catch(function (error) {
         console.log(error);
@@ -100,18 +113,26 @@ const CreateEvent = () => {
                 name="title"
                 {...register("title", { required: true })}
               />
-              {errors.title && <span>This field is required</span>}
+              {errors.title && <AlertText>This field is required</AlertText>}
 
-              <TextField
+              <TextareaAutosize
                 required
+                minRows={3}
                 id="outlined-input"
                 label="Description"
                 variant="standard"
                 name="description"
+                placeholder="description"
+                style={{ width: "45%", marginBottom: "10px" }}
                 {...register("description", { required: true })}
               />
-              {errors.description && <span>This field is required</span>}
-              <Box component="span" sx={{ p: 2, border: "1px dashed grey" }}>
+              {errors.description && (
+                <AlertText>This field is required</AlertText>
+              )}
+              <Box
+                component="AlertText"
+                sx={{ p: 2, border: "1px dashed grey" }}
+              >
                 <label htmlFor="contained-button-file">
                   <Input
                     accept="image/*"
@@ -121,7 +142,7 @@ const CreateEvent = () => {
                     {...register("image", { required: true })}
                     onChange={handleFile}
                   />
-                  <Button variant="contained" component="span">
+                  <Button variant="contained" component="AlertText">
                     Upload
                   </Button>
                 </label>
@@ -132,7 +153,7 @@ const CreateEvent = () => {
                 </Box>
               )}
 
-              {errors.image && <span>This field is required</span>}
+              {errors.image && <AlertText>This field is required</AlertText>}
               <TextField
                 required
                 id="outlined-input"
@@ -141,7 +162,9 @@ const CreateEvent = () => {
                 name="placeName"
                 {...register("placeName", { required: true })}
               />
-              {errors.placeName && <span>This field is required</span>}
+              {errors.placeName && (
+                <AlertText>This field is required</AlertText>
+              )}
               <TextField
                 required
                 id="outlined-input"
@@ -150,7 +173,7 @@ const CreateEvent = () => {
                 name="address"
                 {...register("address", { required: true })}
               />
-              {errors.address && <span>This field is required</span>}
+              {errors.address && <AlertText>This field is required</AlertText>}
               <LocalizationProvider dateAdapter={DateAdapter}>
                 <DatePicker
                   required
@@ -186,6 +209,7 @@ const CreateEvent = () => {
             </ButtonBox>
           </>
         </Box>
+        <CustomizedSnackbars open={open} handleClose={handleClose} />
       </Container>
     </Wrapper>
   );
@@ -193,6 +217,9 @@ const CreateEvent = () => {
 
 export default CreateEvent;
 const Wrapper = styled("div")``;
+const AlertText = styled("div")`
+  color: red;
+`;
 const ButtonBox = styled("div")`
   display: flex;
   justify-content: flex-end;
