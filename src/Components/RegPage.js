@@ -30,7 +30,7 @@ const RegPage = () => {
     if (data.email) {
       const existingUser = checkUser.find((user) => user.email === data.email);
       if (existingUser) {
-        alert("Already Email is Used");
+        alert("Email is already in use. ");
       } else {
         const saveData = { ...data, dob: dob, doj: doj };
         RegService.addUser(saveData).then((user) => {
